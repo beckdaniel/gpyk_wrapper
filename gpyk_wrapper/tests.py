@@ -1,6 +1,6 @@
 
 import unittest
-from gpyk_wrapper.svm_wrapper import SVRTKWrapper, SVMWrapper
+from gpyk_wrapper.svm_wrapper import SVMWrapper
 import GPy
 import numpy as np
 from sklearn.svm import SVR
@@ -18,12 +18,6 @@ class tests(unittest.TestCase):
         self.X3 = np.concatenate((self.X, self.X2), axis=1)
         self.Y = np.array([[(a+10)*5] for a in range(5)])
 
-    def test1(self):
-        model = SVRTKWrapper()
-        model.fit(self.X, self.Y)
-        print model.predict(self.X)
-
-    #@unittest.skip('')
     def test_cv(self):
         svr = SVR()
         kernel = GPy.kern.SymbolAwareSubsetTreeKernel()
@@ -34,7 +28,6 @@ class tests(unittest.TestCase):
                         'sigma': [1e-10, 0.5, 1, 2],
                         }
         cv_model = GridSearchCV(model, tuned_params)
-        #import ipdb; ipdb.set_trace()
         cv_model.fit(self.X, self.Y)
         print cv_model.predict(self.X)
         print cv_model.best_estimator_
@@ -53,7 +46,6 @@ class tests(unittest.TestCase):
                         'rbf.lengthscale': [0.5, 2]
                         }
         cv_model = GridSearchCV(model, tuned_params)
-        #import ipdb; ipdb.set_trace()
         cv_model.fit(self.X3, self.Y)
         print cv_model.predict(self.X3)
         print cv_model.best_estimator_
